@@ -1,0 +1,19 @@
+MaterialDef bloomExtract {
+    MaterialParameters {
+        
+    }
+    Technique {
+        VertexShader   GLSL310 GLSL300 GLSL150 GLSL100 : Common/MatDefs/Post/Post.vert
+        FragmentShader GLSL310 GLSL300 GLSL150 GLSL100 : Shaders/bloomExtract.frag
+        WorldParameters {
+            WorldViewProjectionMatrix
+            CameraPosition
+            WorldMatrix
+            WorldNormalMatrix
+            ViewProjectionMatrix
+            ViewMatrix
+        }
+        Defines {
+        }
+    }
+}

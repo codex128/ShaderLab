@@ -1,0 +1,17 @@
+MaterialDef celFilter {
+    MaterialParameters {
+        Texture2D Texture
+        Int BoundDrawBuffer
+        Int NumSamples
+    }
+    Technique {
+        VertexShader   GLSL310 GLSL300 GLSL150 GLSL100 : Common/MatDefs/Post/Post.vert
+        FragmentShader GLSL310 GLSL300 GLSL150 GLSL100 : Shaders/celFilter.frag
+        WorldParameters {
+        }
+        Defines {
+            BOUND_DRAW_BUFFER : BoundDrawBuffer
+            NUM_SAMPLES : NumSamples
+        }
+    }
+}

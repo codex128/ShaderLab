@@ -5,14 +5,15 @@ MaterialDef Simple {
         Vector3 Direction    : 0.0 1.0 0.0
         Float ScanOffset     : 0.0
         Float LineFrequency  : 180.0
-        Float ScanFrequency  : -1.0
+        Float ScanFrequency  : 1.0
         Float LineSpeed      : -0.3
         Float ScanSpeed      : 1.0
         Float ScanMinimum    : 0.5
         Float Intensity      : 1.0
         
         Boolean UseVertexColor
-        Boolean EnableGlow
+        Boolean UseScanEffect : true
+        Boolean UseGlowEffect : true
         
         // hardware skinning
         Int NumberOfBones
@@ -36,6 +37,7 @@ MaterialDef Simple {
             Time
         }
         Defines {
+            USE_SCAN
             USE_VERTEX_COLOR    : UseVertexColor
             NUM_MORPH_TARGETS   : NumberOfMorphTargets
             NUM_TARGETS_BUFFERS : NumberOfTargetsBuffers
@@ -54,11 +56,12 @@ MaterialDef Simple {
             CameraPosition
         }
         Defines {
-            USE_VERTEX_COLOR : UseVertexColor
-            NUM_MORPH_TARGETS: NumberOfMorphTargets
-            NUM_TARGETS_BUFFERS: NumberOfTargetsBuffers
-            NUM_BONES : NumberOfBones
-            INSTANCING : UseInstancing
+            USE_GLOW            : UseGlowEffect
+            USE_VERTEX_COLOR    : UseVertexColor
+            NUM_MORPH_TARGETS   : NumberOfMorphTargets
+            NUM_TARGETS_BUFFERS : NumberOfTargetsBuffers
+            NUM_BONES           : NumberOfBones
+            INSTANCING          : UseInstancing
         }
     }
 }

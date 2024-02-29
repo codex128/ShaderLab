@@ -1,0 +1,20 @@
+MaterialDef edgeFinal {
+    MaterialParameters {
+        Texture2D Texture
+        Texture2D DepthTexture
+        Texture2D EdgeMap
+        Color EdgeColor : 1.0 0.0 0.0 1.0
+        Int BoundDrawBuffer
+        Int NumSamples
+    }
+    Technique {
+        VertexShader   GLSL310 GLSL300 GLSL150 GLSL100 : Common/MatDefs/Post/Post.vert
+        FragmentShader GLSL310 GLSL300 GLSL150 GLSL100 : Shaders/edgeFinal.frag
+        WorldParameters {
+        }
+        Defines {
+            BOUND_DRAW_BUFFER : BoundDrawBuffer
+            NUM_SAMPLES : NumSamples
+        }
+    }
+}

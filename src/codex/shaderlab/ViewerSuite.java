@@ -5,14 +5,12 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.VideoRecorderAppState;
 import com.jme3.light.PointLight;
 import com.jme3.material.Material;
-import com.jme3.material.RenderState;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.post.FilterPostProcessor;
 import com.jme3.post.filters.BloomFilter;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
-import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 import java.io.File;
@@ -41,11 +39,17 @@ public class ViewerSuite extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         
-        var material = new Material(assetManager, "MatDefs/hologram.j3md");
-        material.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
-        material.setTransparent(true);
-        material.setBoolean("UseVertexColor", true);
-        //material.setFloat("", 1.0f);
+//        var material = new Material(assetManager, "MatDefs/shield.j3md");
+//        material.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
+//        material.setTransparent(true);
+//        material.setBoolean("UseVertexColor", true);
+//        var texKey = new TextureKey("Textures/hex-pattern.png");
+//        texKey.setGenerateMips(false);
+//        material.setTexture("ShieldPattern", assetManager.loadTexture(texKey));
+//        material.setFloat("ShieldIntensity", .3f);
+//        material.setFloat("ShieldReverbAmp", .1f);
+
+        var material = new Material(assetManager, "Common/MatDefs/Light/PBRLighting.j3md");
         
         var model = assetManager.loadModel("Scenes/shader-draft-suite.j3o");
         rootNode.attachChild(model);
@@ -53,18 +57,14 @@ public class ViewerSuite extends SimpleApplication {
         for (var s : iterator) {
             var color = getColorData(s, COLOR_ID);
             if (color != null) {
-                PointLight p = new PointLight(s.getWorldTranslation(), color, 5f);
+                PointLight p = new PointLight(s.getWorldTranslation(), 5f);
                 rootNode.addLight(p);
             }
             if (s.getUserData(TEST_SUBJECT_ID) != null) {
-                s.addControl(new RotateControl(2));
+                s.addControl(new RotateControl(1.5f));
                 var mat = material.clone();
-                if (color != null) {
-                    mat.setColor("Color", color);
-                }
-                mat.setFloat("ScanOffset", gen.nextFloat(0, 100));
+                //mat.setColor("ShieldColor", ColorRGBA.randomColor());
                 s.setMaterial(mat);
-                s.setQueueBucket(RenderQueue.Bucket.Transparent);
             }
         }
         
@@ -75,11 +75,13 @@ public class ViewerSuite extends SimpleApplication {
         var fpp = new FilterPostProcessor(assetManager);
         var bloom = new BloomFilter(BloomFilter.GlowMode.Objects);
         bloom.setBloomIntensity(5.0f);
-        fpp.addFilter(bloom);
+        //fpp.addFilter(bloom);
+        var edge = new EdgeFilter();
+        fpp.addFilter(edge);
         viewPort.addProcessor(fpp);
         
         if (CAPTURE_VIDEO) {
-            var output = new File(System.getProperty("user.home")+"/Pictures/hologram"+System.currentTimeMillis()+".avi");
+            var output = new File(System.getProperty("user.home")+"/Pictures/"+getClass().getSimpleName()+System.currentTimeMillis()+".avi");
             stateManager.attach(new VideoRecorderAppState(output));
         }
         

@@ -25,9 +25,12 @@ float signum(float a) {
     if (a > 0.0) return 1.0;
     else return -1.0;
 }
-float sawWave(float a) {
-    return sin(a) * signum(cos(a));
-}
+
+#ifdef USE_SCAN
+    float sawWave(float a) {
+        return sin(a) * signum(cos(a));
+    }
+#endif
 
 void main() {
     
@@ -36,7 +39,6 @@ void main() {
     float a = dot(m_Direction, wPosition) + m_ScanOffset;
     float line = (sin((a + g_Time * m_LineSpeed) * m_LineFrequency) + 1.0) / 2.0;    
     float fresnel = 1.0 - abs(dot(camDir, wNormal));
-    float scan = (sawWave((a + g_Time * -m_ScanSpeed) * scanDir * m_ScanFrequency) + 1.0) / 2.0;
     
     #ifndef USE_VERTEX_COLOR
         gl_FragColor = m_Color;
@@ -45,6 +47,10 @@ void main() {
     #endif
     
     gl_FragColor.a = line * fresnel * m_Intensity + fresnel/2.0;
-    gl_FragColor = mix(gl_FragColor, gl_FragColor * m_ScanMinimum, scan) * gl_FragColor.a;
+    
+    #ifdef USE_SCAN
+        float scan = (sawWave((a + g_Time * -m_ScanSpeed) * scanDir * m_ScanFrequency) + 1.0) / 2.0;
+        gl_FragColor = mix(gl_FragColor, gl_FragColor * m_ScanMinimum, scan) * gl_FragColor.a;
+    #endif
     
 }

@@ -1,0 +1,22 @@
+MaterialDef blur {
+    MaterialParameters {
+        Texture2D Texture
+        Int Samples : 16
+        Int SubSteps : 1
+        Boolean Horizontal : true
+    }
+    Technique {
+        VertexShader   GLSL310 GLSL300 GLSL150 GLSL100 : Common/MatDefs/Post/Post.vert
+        FragmentShader GLSL310 GLSL300 GLSL150 GLSL100 : Shaders/blur.frag
+        WorldParameters {
+            WorldViewProjectionMatrix
+            CameraPosition
+            WorldMatrix
+            WorldNormalMatrix
+            ViewProjectionMatrix
+            ViewMatrix
+        }
+        Defines {
+        }
+    }
+}

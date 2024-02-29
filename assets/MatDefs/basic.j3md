@@ -1,0 +1,52 @@
+MaterialDef basic {
+    MaterialParameters {
+        
+        Color Color : 1.0 0.0 0.0 1.0
+
+        Boolean UseInstancing
+        
+        // Skinning
+        Int NumberOfBones
+        Matrix4Array BoneMatrices
+        FloatArray MorphWeights
+        Int NumberOfMorphTargets
+        Int NumberOfTargetsBuffers
+        
+    }
+    Technique {
+        VertexShader   GLSL450 GLSL310 GLSL300 GLSL150 : Shaders/basic.vert
+        FragmentShader GLSL450 GLSL310 GLSL300 GLSL150 : Shaders/basic.frag
+        WorldParameters {
+            WorldViewProjectionMatrix
+            CameraPosition
+            WorldMatrix
+            WorldNormalMatrix
+            ViewProjectionMatrix
+            ViewMatrix
+        }
+        Defines {
+            INSTANCING : UseInstancing
+            NUM_BONES : NumberOfBones
+            NUM_MORPH_TARGETS : NumberOfMorphTargets
+            NUM_TARGETS_BUFFERS : NumberOfTargetsBuffers
+        }
+    }
+    Technique Glow {
+        VertexShader   GLSL450 GLSL310 GLSL300 GLSL150 : Shaders/basic.vert
+        FragmentShader GLSL450 GLSL310 GLSL300 GLSL150 : Shaders/basic.frag
+        WorldParameters {
+            WorldViewProjectionMatrix
+            CameraPosition
+            WorldMatrix
+            WorldNormalMatrix
+            ViewProjectionMatrix
+            ViewMatrix
+        }
+        Defines {
+            INSTANCING : UseInstancing
+            NUM_BONES : NumberOfBones
+            NUM_MORPH_TARGETS : NumberOfMorphTargets
+            NUM_TARGETS_BUFFERS : NumberOfTargetsBuffers
+        }
+    }
+}
