@@ -1,0 +1,54 @@
+
+/*
+vec4 getSample(vec2 texCoord) {
+    
+}
+bool isVolume(vec2 texCoord, vec4 original) {
+    
+}
+float getDistanceX(vec2 texCoord) {
+    
+}
+*/
+
+#ifdef X_PASS
+float getDistance(vec2 texCoord, vec2 offset, int samples) {
+    
+    float dist = samples+1;
+    vec4 s = getSample(texCoord);
+    
+    for (int i = 0; i < samples; i++) {
+        vec2 pt = vec2(texCoord.x + offset.x * i, texCoord.y);
+        vec2 nt = vec2(texCoord.x - offset.x * i, texCoord.y);
+        if (isVolume(pt, s) || isVolume(nt, s)) {
+            dist = i;
+            break;
+        }
+    }
+    
+    return min(dist/samples, 1.0);
+    
+}
+#else
+float getDistance(vec2 texCoord, vec2 offset, int samples) {
+    
+    float dist = samples*samples;
+    
+    for (int j = 1; j >= -1; j -= 2) {
+        for (int i = 0; i < samples; i++) {
+            vec2 t = vec2(texCoord.x, texCoord.y + offset.x * i * j);
+            float x = getDistanceX(t) * samples;
+            float d = x*x + i*i;
+            if (d < dist) {
+                dist = d;
+            }
+        }
+    }
+    
+    dist = sqrt(dist);
+    
+    return min(dist/samples, 1.0);
+    
+}
+#endif
+

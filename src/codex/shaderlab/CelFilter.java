@@ -19,6 +19,8 @@ public class CelFilter extends Filter {
     @Override
     protected void initFilter(AssetManager manager, RenderManager renderManager, ViewPort vp, int w, int h) {}
     @Override
-    protected Material getMaterial() {}
+    protected Material getMaterial() {
+        return material;
+    }
     
 }
